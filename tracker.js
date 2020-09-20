@@ -162,11 +162,11 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
     }
 
     if (jawDropped >= 60 || brow >= 60 || browR >= 60) {
-      document.getElementById("confusion-level").innerHTML = "High";
+      document.getElementById("confusion-level").innerHTML = "Low";
     } else if (jawDropped >= 20 || brow >= 20 || browR >= 20) {
         document.getElementById("confusion-level").innerHTML = "Medium";
     } else {
-        document.getElementById("confusion-level").innerHTML = "Low";
+        document.getElementById("confusion-level").innerHTML = "High";
     }
     //Checking if this would represent confusion
     if (faces[0].expressions['jawDrop'].toFixed(0) > confusion) {
@@ -188,11 +188,11 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
     }
 
     if (low_att >= 100) {
-      document.getElementById("attention-level").innerHTML = "Distracted";
+      document.getElementById("attention-level").innerHTML = "Low";
     } else if (low_att >= 30) {
-        document.getElementById("attention-level").innerHTML = "Low attention";
+        document.getElementById("attention-level").innerHTML = "Medium";
     } else {
-        document.getElementById("attention-level").innerHTML = "Attentive";
+        document.getElementById("attention-level").innerHTML = "High";
     }
 
     //adding frame values to their respective arrays
@@ -272,7 +272,7 @@ function onStop() {
 
   var A_data = [{
   values: [less_att, distracte, curr_att],
-  labels: ['Not fully being attention', 'Completely Distracted', 'Paying attention'],
+  labels: ['Not Fully Engaged', 'Distracted', 'Engaged'],
   type: 'pie'
   }];
 
