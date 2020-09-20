@@ -194,9 +194,9 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
     joye.push(faces[0].emotions['joy'].toFixed(0));
     surpe.push(faces[0].emotions['surprise'].toFixed(0));
 
-    log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, function(key, val) {
-      return val.toFixed ? Number(val.toFixed(0)) : val;
-    }));
+    // log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, function(key, val) {
+    //   return val.toFixed ? Number(val.toFixed(0)) : val;
+    // }));
     //log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
     if($('#face_video_canvas')[0] != null)
       drawFeaturePoints(image, faces[0].featurePoints);
