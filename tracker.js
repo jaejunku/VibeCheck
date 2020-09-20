@@ -178,7 +178,7 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
     //adding frame values to their respective arrays
     browe.push(confusion);
     attene.push(faces[0].expressions['attention'].toFixed(0));
-    framenum.push(ind);
+    framenum.push(timestamp.toFixed(2));
     valene.push(faces[0].emotions['valence'].toFixed(0));
     joye.push(faces[0].emotions['joy'].toFixed(0));
     surpe.push(faces[0].emotions['surprise'].toFixed(0));
@@ -187,9 +187,9 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
       return val.toFixed ? Number(val.toFixed(0)) : val;
     }));
     //log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
-    /*if($('#face_video_canvas')[0] != null)
+    if($('#face_video_canvas')[0] != null)
       drawFeaturePoints(image, faces[0].featurePoints);
-      */
+
   }
 });
 
@@ -201,19 +201,6 @@ function onStop() {
     detector.stop();
   }
 
-  var n = valene.length;
-  var nI = Math.round( n/10 );
-  var valEnd = 0;
-  //alert(nI);
-  for (var i = n - nI-1; i < n; ++i) {
-    if (valene[i]>=0) {
-      valEnd +=1;
-    }
-  }
-  //alert(valEnd);
-  if (valEnd >= (nI*0.7)) {
-    xV.style.display = "block";
-  }
 
 
   var brow_em = {
@@ -249,7 +236,7 @@ function onStop() {
   var layout = {
     title: 'Emotions displayed through out the session',
     xaxis: {
-      title: 'Frame number'
+      title: 'Seconds'
     },
     yaxis: {
       title: 'Emotion detected',
