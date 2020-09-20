@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -12,32 +13,28 @@
       <div class="col-md-8" id="affdex_elements" style="width:680px;height:480px; "></div>
       <div class="col-md-4">
         <div style="height:10em;">
-          <strong>EMOTION TRACKING RESULTS</strong>
-          <div id="results" style="word-wrap:break-word;"></div>
-        </div>
-        <div style="height:15em;">
-          <strong>Valence emotion</strong>
-          <div id="resultsV" style="word-wrap:break-word;">
-            <img id="ressm" src="images/sm.png" alt="Smiley face" width=auto height="50">
-            <img id="ressad" src="images/sad.png" alt="Sad face" width=auto height="50">
+          <strong>Instructor Dashboard</strong>
+          <div id="confusion">
+            CONFUSION: <div id="confusion-level"></div>
+          </div>
+          <div id="attention">
+            ATTENTION: <div id="attention-level"></div>
+          </div>
+          <div>
+            <div id="results" style="word-wrap:break-word;"></div>
           </div>
         </div>
         <div>
-          <strong>DETECTOR LOG MSGS</strong>
+          <strong>Teacher LOG MSGS</strong>
         </div>
         <div id="logs"></div>
-        <div>
-          <strong>Messages to doctor</strong>
-        </div>
-        <div id="drlogs"></div>
-        <div id="final_note"> The patient was mostly satisfied before ending the call!</div>
       </div>
     </div>
     <div>
       <button id="start" onclick="onStart()">Start</button>
       <button id="stop" onclick="onStop()">Stop</button>
       <button id="reset" onclick="onReset()">Reset</button>
-      <h3>Affectiva JS SDK CameraDetector to track different emotions.</h3>
+      <h3>VibeCheck</h3>
       <p>
         <strong>Instructions</strong>
         </br>
@@ -49,9 +46,10 @@
   </div>
 
   <div id="tester" style="width:90%;height:400px;"></div>
+  <div id="tester2" style="width:60%;height:300px;"></div>
 
   <script src="https://download.affectiva.com/js/3.2.1/affdex.js"> </script>
-  <script type="text/javascript" src="trys.js"></script>
+  <script type="text/javascript" src="tracker.js"></script>
 
 </body>
 </html>

@@ -74,6 +74,8 @@ var sade = [];
 var feare = [];
 var surpe = [];
 var valene = [];
+var attene = [];
+var browe = [];
 var framenum = [];
 var ind = 0;
 
@@ -81,73 +83,122 @@ var ind = 0;
 var fearF = 0;
 var sadF = 0;
 
+
+//Lower Attention
+var low_att = 0;
+//Hugely distracted-not looking
+var distra = 0;
+
+
+//confusion
+var confusion = 0;
+
+//Misunderstanding
+var brow = 0;
+var browR = 0;
+var jawDropped = 0;
+var eyeWidened = 0;
+//Sleeping
+var eyeC = 0;
+
 //Add a callback to receive the results from processing an image.
 //The faces object contains the list of the faces detected in an image.
 //Faces object contains probabilities for all the different expressions, emotions and appearance metrics
 detector.addEventListener("onImageResultsSuccess", function(faces, image, timestamp) {
   $('#results').html("");
   $('#drlogs').html("");
-  log('#results', "Timestamp: " + timestamp.toFixed(2));
-  log('#results', "Number of faces found: " + faces.length);
+  // log('#results', "Timestamp: " + timestamp.toFixed(2));
+  // log('#results', "Number of faces found: " + faces.length);
 
   if (faces.length > 0) {
-    log('#results', "Appearance: " + JSON.stringify(faces[0].appearance));
-    log('#results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
-      return val.toFixed ? Number(val.toFixed(0)) : val;
-    }));
-
-    var xSm = document.getElementById("ressm");
-    var xSad = document.getElementById("ressad");
-
-    if (faces[0].emotions['valence'] >= 0) {
-      xSm.style.display = "block";
-      xSad.style.display = "none";
-    } else {
-      xSm.style.display = "none";
-      xSad.style.display = "block";
-    }
+    // log('#results', "Appearance: " + JSON.stringify(faces[0].appearance));
+    // log('#results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
+    //   return val.toFixed ? Number(val.toFixed(0)) : val;
+    // }));
 
     ind += 1;
+    confusion = 0;
 
-    //keeping track of patient's fear status
-    if (faces[0].emotions['fear'].toFixed(0) > 10) {
-      fearF +=1;
+    //keeping track of student's brow furrow
+    if (faces[0].expressions['browFurrow'].toFixed(0) > 10) {
+      brow +=1;
+    } else {
+      brow = 0;
     }
-    if (faces[0].emotions['fear'].toFixed(0) <= 10) {
-      fearF = 0;
-    }
-    /*
-    //if patient has been fearful for over 3 seconds display that!
-    if (fearF >= 30) {
-      log('#drlogs', "The patient has been fearful, could you tell him signs of hope?");
-    }
-
-    //keeping track of patient's fear status
-    if (faces[0].emotions['sadness'].toFixed(0) > 10) {
-      sadF +=1;
-    }
-    if (faces[0].emotions['sadness'].toFixed(0) <= 10) {
-      sadF = 0;
+    //if student has been confused for over 3 seconds display that!
+    // if (brow >= 30) {
+    //   log('#drlogs', "The student may be struggling to understand this part\n Please make sure to re-iterate this part");
+    // }
+    //Checking if this would represent confusion
+    if (faces[0].expressions['browFurrow'].toFixed(0) > confusion) {
+      confusion = faces[0].expressions['browFurrow'].toFixed(0);
     }
 
-    //if patient has been fearful for over 3 seconds display that!
-    if (sadF >= 30) {
-      log('#drlogs', "The patient has been displaying a pattern of sadness, could you tell stories of others who made it?");
+
+    //keeping track of student's brow Raise
+    if (faces[0].expressions['browRaise'].toFixed(0) > 15) {
+      browR +=1;
+    } else {
+      browR = 0;
     }
-    */
-    /*
+    //if student has been confused for over 3 seconds display that!
+    // if (browR >= 30) {
+    //   log('#drlogs', "The student may be struggling to understand this part\n Please make sure to re-iterate this part");
+    // }
+    //Checking if this would represent confusion
+    if (faces[0].expressions['browRaise'].toFixed(0) > confusion) {
+      confusion = faces[0].expressions['browRaise'].toFixed(0);
+    }
+
+
+    //keeping track of patient's jaw dropping
+    if (faces[0].expressions['jawDrop'].toFixed(0) > 30) {
+      jawDropped +=1;
+    } else {
+      jawDropped = 0;
+    }
+
+    if (jawDropped >= 60 || brow >= 60 || browR >= 60) {
+      document.getElementById("confusion-level").innerHTML = "High";
+    } else if (jawDropped >= 20 || brow >= 20 || browR >= 20) {
+        document.getElementById("confusion-level").innerHTML = "Medium";
+    } else {
+        document.getElementById("confusion-level").innerHTML = "Low";
+    }
+  
+    //Checking if this would represent confusion
+    if (faces[0].expressions['jawDrop'].toFixed(0) > confusion) {
+      confusion = faces[0].expressions['jawDrop'].toFixed(0);
+    }
+
+
+    //keeping track of student Attention
+    if (faces[0].expressions['attention'].toFixed(0) <= 90){
+      low_att += 1;
+    } else {
+      low_att = 0;
+    }
+
+    if (low_att >= 100) {
+      document.getElementById("attention-level").innerHTML = "Distracted";
+    } else if (low_att >= 30) {
+        document.getElementById("attention-level").innerHTML = "Low attention";
+    } else {
+        document.getElementById("attention-level").innerHTML = "Attentive";
+    }
+
     //adding frame values to their respective arrays
-    framenum.push(ind);
+    browe.push(confusion);
+    attene.push(faces[0].expressions['attention'].toFixed(0));
+    framenum.push(timestamp.toFixed(2));
     valene.push(faces[0].emotions['valence'].toFixed(0));
     joye.push(faces[0].emotions['joy'].toFixed(0));
-    sade.push(faces[0].emotions['sadness'].toFixed(0));
-    feare.push(faces[0].emotions['fear'].toFixed(0));
     surpe.push(faces[0].emotions['surprise'].toFixed(0));
-    */
+
     log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, function(key, val) {
       return val.toFixed ? Number(val.toFixed(0)) : val;
     }));
-    log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
+    //log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
     if($('#face_video_canvas')[0] != null)
       drawFeaturePoints(image, faces[0].featurePoints);
 
@@ -162,32 +213,26 @@ function onStop() {
     detector.stop();
   }
 
-  var n = valene.length;
-  var nI = Math.round( n/10 );
-  var valEnd = 0;
-  //alert(nI);
-  for (var i = n - nI-1; i < n; ++i) {
-    if (valene[i]>=0) {
-      valEnd +=1;
-    }
-  }
-  //alert(valEnd);
-  if (valEnd >= (nI*0.7)) {
-    xV.style.display = "block";
-  }
 
+
+  var brow_em = {
+  x: framenum,
+  y: browe,
+  name: 'confusion',
+  type: 'lines'
+  };
+
+  var atten_em = {
+  x: framenum,
+  y: attene,
+  name: 'Attention',
+  type: 'lines'
+  };
 
   var joy_em = {
   x: framenum,
   y: joye,
   name: 'Joy',
-  type: 'lines'
-  };
-
-  var sadness_em = {
-  x: framenum,
-  y: sade,
-  name: 'Sadness',
   type: 'lines'
   };
 
@@ -198,19 +243,12 @@ function onStop() {
   type: 'lines'
   };
 
-  var fear_em = {
-  x: framenum,
-  y: feare,
-  name: 'Fear',
-  type: 'lines'
-  };
-
-  var data4 = [joy_em, sadness_em, surprise_em, fear_em];
+  var data4 = [atten_em, surprise_em, joy_em, brow_em];
 
   var layout = {
     title: 'Emotions displayed through out the session',
     xaxis: {
-      title: 'Frame number'
+      title: 'Seconds'
     },
     yaxis: {
       title: 'Emotion detected',
@@ -220,12 +258,31 @@ function onStop() {
 
   Plotly.newPlot('tester', data4, layout);
 
+
+  //attentive
+  var curr_att = ind - low_att - distra;
+
+  var A_data = [{
+  values: [low_att, distra, curr_att],
+  labels: ['Not fully being attention', 'Completely Distracted', 'Paying attention'],
+  type: 'pie'
+  }];
+
+  var A_layout = {
+    height: 400,
+    width: 500
+  };
+
+Plotly.newPlot('tester2', A_data, A_layout);
+
+
   //re-setting all arrays
   joye = [];
-  sade = [];
-  feare = [];
   surpe = [];
   valene = [];
+  attene = [];
+  low_att = 0;
+  distra = 0;
 //  framenum = [];
 
 
