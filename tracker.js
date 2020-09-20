@@ -95,6 +95,9 @@ var distracte= 0;
 
 //confusion
 var confusion = 0;
+var lconf = 0;
+var mconf = 0;
+var hconf = 0;
 
 //Misunderstanding
 var brow = 0;
@@ -162,11 +165,22 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
     }
 
     if (jawDropped >= 60 || brow >= 60 || browR >= 60) {
-      document.getElementById("confusion-level").innerHTML = "Low";
+      hconf += 1;
+      document.getElementById("confusion-level-low").innerHTML = "Low";
+      document.getElementById("attention-level-medium").innerHTML = "";
+      document.getElementById("attention-level-high").innerHTML = "";
     } else if (jawDropped >= 20 || brow >= 20 || browR >= 20) {
-        document.getElementById("confusion-level").innerHTML = "Medium";
+        mconf += 1;
+        document.getElementById("confusion-level-medium").innerHTML = "Medium";
+        document.getElementById("attention-level-low").innerHTML = "";
+      document.getElementById("attention-level-high").innerHTML = "";
+
     } else {
-        document.getElementById("confusion-level").innerHTML = "High";
+        lconf += 1;
+        document.getElementById("confusion-level-high").innerHTML = "High";
+        document.getElementById("attention-level-medium").innerHTML = "";
+        document.getElementById("attention-level-low").innerHTML = "";
+
     }
     //Checking if this would represent confusion
     if (faces[0].expressions['jawDrop'].toFixed(0) > confusion) {
@@ -188,11 +202,20 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
     }
 
     if (low_att >= 100) {
-      document.getElementById("attention-level").innerHTML = "Low";
+      document.getElementById("attention-level-low").innerHTML = "Low";
+      document.getElementById("attention-level-medium").innerHTML = "";
+      document.getElementById("attention-level-high").innerHTML = "";
+
     } else if (low_att >= 30) {
-        document.getElementById("attention-level").innerHTML = "Medium";
+        document.getElementById("attention-level-medium").innerHTML = "Medium";
+        document.getElementById("attention-level-high").innerHTML = "";
+        document.getElementById("attention-level-low").innerHTML = "";
+
     } else {
-        document.getElementById("attention-level").innerHTML = "High";
+        document.getElementById("attention-level-high").innerHTML = "High";
+        document.getElementById("attention-level-medium").innerHTML = "";
+        document.getElementById("attention-level-low").innerHTML = "";
+
     }
 
     //adding frame values to their respective arrays
@@ -269,6 +292,7 @@ function onStop() {
 
   //attentive
   var curr_att = ind - less_att - distracte;
+
 
   var A_data = [{
   values: [less_att, distracte, curr_att],
