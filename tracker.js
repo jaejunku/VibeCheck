@@ -167,19 +167,20 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
     if (jawDropped >= 60 || brow >= 60 || browR >= 60) {
       hconf += 1;
       document.getElementById("confusion-level-low").innerHTML = "Low";
-      document.getElementById("attention-level-medium").innerHTML = "";
-      document.getElementById("attention-level-high").innerHTML = "";
+      document.getElementById("confusion-level-medium").innerHTML = "";
+      document.getElementById("confusion-level-high").innerHTML = "";
+
     } else if (jawDropped >= 20 || brow >= 20 || browR >= 20) {
         mconf += 1;
         document.getElementById("confusion-level-medium").innerHTML = "Medium";
-        document.getElementById("attention-level-low").innerHTML = "";
-      document.getElementById("attention-level-high").innerHTML = "";
+        document.getElementById("confusion-level-low").innerHTML = "";
+        document.getElementById("confusion-level-high").innerHTML = "";
 
     } else {
         lconf += 1;
         document.getElementById("confusion-level-high").innerHTML = "High";
-        document.getElementById("attention-level-medium").innerHTML = "";
-        document.getElementById("attention-level-low").innerHTML = "";
+        document.getElementById("confusion-level-medium").innerHTML = "";
+        document.getElementById("confusion-level-low").innerHTML = "";
 
     }
     //Checking if this would represent confusion
