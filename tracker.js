@@ -90,6 +90,9 @@ var low_att = 0;
 var distra = 0;
 
 
+var less_att = 0;
+var distracte= 0;
+
 //confusion
 var confusion = 0;
 
@@ -170,6 +173,12 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
       confusion = faces[0].expressions['jawDrop'].toFixed(0);
     }
 
+    if ( (faces[0].expressions['attention'].toFixed(0) <= 90) && (faces[0].expressions['attention'].toFixed(0) > 60) ) {
+      less_att += 1;
+    }
+    if ( faces[0].expressions['attention'].toFixed(0) <= 60 ) {
+      distracte += 1;
+    }
 
     //keeping track of student Attention
     if (faces[0].expressions['attention'].toFixed(0) <= 90){
@@ -194,9 +203,9 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
     joye.push(faces[0].emotions['joy'].toFixed(0));
     surpe.push(faces[0].emotions['surprise'].toFixed(0));
 
-    log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, function(key, val) {
-      return val.toFixed ? Number(val.toFixed(0)) : val;
-    }));
+    // log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, function(key, val) {
+    //   return val.toFixed ? Number(val.toFixed(0)) : val;
+    // }));
     //log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
     if($('#face_video_canvas')[0] != null)
       drawFeaturePoints(image, faces[0].featurePoints);
@@ -259,10 +268,10 @@ function onStop() {
 
 
   //attentive
-  var curr_att = ind - low_att - distra;
+  var curr_att = ind - less_att - distracte;
 
   var A_data = [{
-  values: [low_att, distra, curr_att],
+  values: [less_att, distracte, curr_att],
   labels: ['Not fully being attention', 'Completely Distracted', 'Paying attention'],
   type: 'pie'
   }];
