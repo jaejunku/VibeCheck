@@ -90,6 +90,9 @@ var low_att = 0;
 var distra = 0;
 
 
+var less_att = 0;
+var distracte= 0;
+
 //confusion
 var confusion = 0;
 
@@ -170,6 +173,12 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
       confusion = faces[0].expressions['jawDrop'].toFixed(0);
     }
 
+    if ( (faces[0].expressions['attention'].toFixed(0) <= 90) && (faces[0].expressions['attention'].toFixed(0) > 60) ) {
+      less_att += 1;
+    }
+    if ( faces[0].expressions['attention'].toFixed(0) <= 60 ) {
+      distracte += 1;
+    }
 
     //keeping track of student Attention
     if (faces[0].expressions['attention'].toFixed(0) <= 90){
@@ -259,10 +268,10 @@ function onStop() {
 
 
   //attentive
-  var curr_att = ind - low_att - distra;
+  var curr_att = ind - less_att - distracte;
 
   var A_data = [{
-  values: [low_att, distra, curr_att],
+  values: [less_att, distracte, curr_att],
   labels: ['Not fully being attention', 'Completely Distracted', 'Paying attention'],
   type: 'pie'
   }];
