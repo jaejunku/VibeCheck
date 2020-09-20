@@ -11,6 +11,28 @@
     color: orange;
 }
 
+.normal {
+    color: gray
+}
+
 .low {
     color: red;
+}
+
+.enjoy {
+    color: green;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.distracted{
+    color: orange;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.confused{
+    color: red;
+    font-size: larger;
+    font-weight: bold;
 }

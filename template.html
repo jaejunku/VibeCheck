@@ -50,11 +50,13 @@
           <div class="card-body">
             <h5 class="font-weight-bold mb-3">Live Instructor Dashboard</h5>
             <p class="mb-0">Check for student understanding and engagement in real time.</p>
+            <div id="understanding-score"></div>
+            <div id="confusion-score"></div>
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <div id="confusion">
-                UNDERSTANDING: 
+                <div style="font-weight: bold;">UNDERSTANDING: </div>
                 <div id="confusion-level-high" class="high"></div>
                 <div id="confusion-level-medium" class="medium"></div>
                 <div id="confusion-level-low" class="low"></div>
@@ -62,10 +64,17 @@
             </li>
             <li class="list-group-item">
               <div id="attention">
-                ENGAGEMENT: 
+                <div style="font-weight: bold;">ENGAGEMENT: </div> 
                 <div id="attention-level-high" class="high"></div>
                 <div id="attention-level-medium" class="medium"></div>
                 <div id="attention-level-low" class="low"></div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div id="enjoyment">
+                <div style="font-weight: bold;">ENJOYMENT: </div> 
+                <div id="enjoyment-level-high" class="high"></div>
+                <div id="enjoyment-level-normal" class="normal"></div>
               </div>
             </li>
           </ul>
@@ -79,8 +88,6 @@
     aria-hidden="false">
 
     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-
-
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title w-100" id="myModalLabel">Post-Class Report</h4>
@@ -89,6 +96,14 @@
           </button>
         </div>
         <div class="modal-body">
+          <div style="font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: large;">
+          Hello! Here is your student mood report for today's class.</div>
+          <div id="understanding-score"></div>
+          <div id="confusion-score"></div>
+          <div id="enjoyment-score"></div>
+          <div style="font-size: large;">The class seemed <span class="confused">most confused</span> at timestamp(s): <span id="confused-time"></span><span> seconds</span></div>
+          <div style="font-size: large;">The class seemed <span class="distracted">most distracted</span> at timestamp(s): <span id="distracted-time"></span><span> seconds</span></div>
+          <div style="font-size: large;">The class seemed <span class="enjoy">to enjoy</span> timestamp(s): <span id="enjoy-time"></span><span> seconds</span></div>
           <div id="tester" style="width:90%;height:400px;"></div>
           <div id="tester2" style="width:60%;height:300px;"></div>
         </div>

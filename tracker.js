@@ -77,6 +77,10 @@ var valene = [];
 var attene = [];
 var browe = [];
 var framenum = [];
+var confused_times = [];
+var distracted_times = [];
+var enjoy_times = [];
+
 var ind = 0;
 
 // Current consecutive fear/sadness levels
@@ -169,13 +173,12 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
       document.getElementById("confusion-level-low").innerHTML = "Low";
       document.getElementById("confusion-level-medium").innerHTML = "";
       document.getElementById("confusion-level-high").innerHTML = "";
-
+      confused_times.push(timestamp.toFixed(2));
     } else if (jawDropped >= 20 || brow >= 20 || browR >= 20) {
         mconf += 1;
         document.getElementById("confusion-level-medium").innerHTML = "Medium";
         document.getElementById("confusion-level-low").innerHTML = "";
         document.getElementById("confusion-level-high").innerHTML = "";
-
     } else {
         lconf += 1;
         document.getElementById("confusion-level-high").innerHTML = "High";
@@ -195,6 +198,22 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
       distracte += 1;
     }
 
+    //keeping track of joy
+    if (faces[0].emotions['joy'].toFixed(0) > 30){
+      joy_count += 1;
+    } else {
+      joy_count = 0;
+    }
+
+    if (joy_count >= 20) {
+      document.getElementById("enjoyment-level-high").innerHTML = "High";
+      document.getElementById("enjoyment-level-normal").innerHTML = "";
+      enjoy_times.push(timestamp.toFixed(2));
+    } else {
+      document.getElementById("enjoyment-level-normal").innerHTML = "Normal";
+      document.getElementById("enjoyment-level-high").innerHTML = "";
+    }
+
     //keeping track of student Attention
     if (faces[0].expressions['attention'].toFixed(0) <= 90){
       low_att += 1;
@@ -202,10 +221,11 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
       low_att = 0;
     }
 
-    if (low_att >= 100) {
+    if (low_att >= 90) {
       document.getElementById("attention-level-low").innerHTML = "Low";
       document.getElementById("attention-level-medium").innerHTML = "";
       document.getElementById("attention-level-high").innerHTML = "";
+      distracted_times.push(timestamp.toFixed(2));
 
     } else if (low_att >= 30) {
         document.getElementById("attention-level-medium").innerHTML = "Medium";
@@ -216,7 +236,6 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
         document.getElementById("attention-level-high").innerHTML = "High";
         document.getElementById("attention-level-medium").innerHTML = "";
         document.getElementById("attention-level-low").innerHTML = "";
-
     }
 
     //adding frame values to their respective arrays
@@ -245,7 +264,9 @@ function onStop() {
     detector.stop();
   }
 
-
+  document.getElementById("confused-time").innerHTML = confused_times[0];
+  document.getElementById("distracted-time").innerHTML = distracted_times[0];
+  document.getElementById("enjoy-time").innerHTML = enjoy_times[0];
 
   var brow_em = {
   x: framenum,
@@ -278,7 +299,7 @@ function onStop() {
   var data4 = [atten_em, surprise_em, joy_em, brow_em];
 
   var layout = {
-    title: 'Emotions displayed through out the session',
+    title: 'Class Sentiment Throughout Lecture',
     xaxis: {
       title: 'Seconds'
     },
@@ -290,10 +311,8 @@ function onStop() {
 
   Plotly.newPlot('tester', data4, layout);
 
-
   //attentive
   var curr_att = ind - less_att - distracte;
-
 
   var A_data = [{
   values: [less_att, distracte, curr_att],
