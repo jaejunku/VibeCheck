@@ -165,7 +165,6 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
     } else {
         document.getElementById("confusion-level").innerHTML = "Low";
     }
-  
     //Checking if this would represent confusion
     if (faces[0].expressions['jawDrop'].toFixed(0) > confusion) {
       confusion = faces[0].expressions['jawDrop'].toFixed(0);
